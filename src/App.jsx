@@ -10,37 +10,31 @@ function App() {
     const savedFeedback = localStorage.getItem('feedback');
     return savedFeedback ? JSON.parse(savedFeedback) : initialFeedbackState;
   });
-  const [initialFeedback, setInitialFeedback] = useState(initialFeedbackState); // Доданий стан для зберігання початкового стану
-
+  
   useEffect(() => {
     localStorage.setItem('feedback', JSON.stringify(feedback));
   }, [feedback]);
 
-  // Встановлення початкового стану при першій ініціалізації компонента
-  useEffect(() => {
-    setInitialFeedback(feedback);
-  }, [feedback]);
-
   const addFeedback = (feedbackType) => {
-    setFeedback({
-      ...feedback,
-      [feedbackType]: feedback[feedbackType] + 1
-    });
-  }
+    setFeedback((prevFeedback) => ({
+      ...prevFeedback,
+      [feedbackType]: prevFeedback[feedbackType] + 1
+    }));
+  };
 
   const resetFeedback = () => {
-    setFeedback(initialFeedback); // Скидання зворотного зв'язку до початкового стану
+    setFeedback(initialFeedbackState);
   };
 
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
-  const positive = Math.round(((feedback.good + feedback.neutral) / totalFeedback) * 100);
+  const positive = totalFeedback === 0 ? 0 : Math.round(((feedback.good + feedback.neutral) / totalFeedback) * 100);
 
   return (
     <>
       <Description/>
       <Options 
         onClick={addFeedback}
-        onReset={resetFeedback} // Доданий обробник подій для скидання зворотного зв'язку
+        onReset={resetFeedback}
       />
       {totalFeedback === 0 ? <div>No feedback yet</div> :
         <Feedback

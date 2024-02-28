@@ -1,8 +1,8 @@
+import css from './options.module.css'
 
-
-const Options = ({ onClick }) => {
+const Options = ({ onClick, onReset }) => {
     return (
-        <div>
+        <div className={css.options}>
             <button onClick={() => onClick('good')}>Good</button>
             <button onClick={() => onClick('neutral')}>Neutral</button>
             <button onClick={() => onClick('bad')}>Bad</button>
@@ -11,4 +11,4 @@ const Options = ({ onClick }) => {
     );
 };
 
-export default Options
+export default Options  
