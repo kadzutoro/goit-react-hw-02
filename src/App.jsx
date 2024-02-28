@@ -5,16 +5,16 @@ import Options from './components/options/options'
 import Feedback from './components/feedback/feedback'
 
 function App() {
-  const [feedback, setFeedback] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0
+  const [feedback, setFeedback] = useState(() => {
+    const savedFeedback = localStorage.getItem('feedback');
+    return !savedFeedback
+      ? { good: 0, neutral: 0, bad: 0 }
+      : JSON.parse(savedFeedback);
   });
 
-
   useEffect(() => {
-    localStorage.setItem('feedback', JSON.stringify(feedback))
-  }, [feedback])
+    localStorage.setItem('feedback', JSON.stringify(feedback));
+  }, [feedback]);
 
   const addFeedback = (feedbackType) => {
     setFeedback({
