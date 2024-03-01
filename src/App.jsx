@@ -3,6 +3,7 @@ import './App.css'
 import Description from './components/description/description'
 import Options from './components/options/options'
 import Feedback from './components/feedback/feedback'
+import Notification from './components/Notification/Notification'
 
 function App() {
   const initialFeedbackState = { good: 0, neutral: 0, bad: 0 };
@@ -33,10 +34,11 @@ function App() {
     <>
       <Description/>
       <Options 
-        onClick={addFeedback}
-        onReset={resetFeedback}
-      />
-      {totalFeedback === 0 ? <div>No feedback yet</div> :
+  onClick={addFeedback}
+  onReset={resetFeedback}
+  totalFeedback={totalFeedback}
+/>
+      {totalFeedback === 0 ? <Notification/> :
         <Feedback
           feedback={feedback}
           total={totalFeedback}
